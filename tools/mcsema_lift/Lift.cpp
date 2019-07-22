@@ -65,6 +65,7 @@ DEFINE_string(abi_libraries, "", "Path to one or more bitcode files that contain
 DECLARE_bool(version);
 
 DECLARE_bool(disable_optimizer);
+DECLARE_bool(disable_optimizer_O3);
 DECLARE_bool(keep_memops);
 DECLARE_bool(explicit_args);
 DECLARE_string(pc_annotation);
@@ -241,6 +242,7 @@ int main(int argc, char *argv[]) {
      // This option tells McSema not to optimize the bitcode. This is useful
      // for debugging, especially in conjunction with `--add_breakpoints`.
      << "    [--disable_optimizer] \\" << std::endl
+     << "    [--disable_optimizer_O3] \\" << std::endl
 
      // This option tells McSema not to lower Remill's memory access intrinsic
      // functions into LLVM `load` and `store` instructions.
@@ -347,6 +349,10 @@ int main(int argc, char *argv[]) {
     LOG_IF(WARNING, FLAGS_disable_optimizer)
         << "Re-enabling the optimizer in legacy mode.";
     FLAGS_disable_optimizer = false;
+
+    LOG_IF(WARNING, FLAGS_disable_optimizer_O3)
+        << "Re-enabling the optimizer in legacy mode.";
+    FLAGS_disable_optimizer_O3 = false;
   }
 
   mcsema::gModule = remill::LoadTargetSemantics(mcsema::gContext);

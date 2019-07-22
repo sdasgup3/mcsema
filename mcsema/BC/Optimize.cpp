@@ -58,6 +58,9 @@
 DEFINE_bool(disable_optimizer, false,
             "Disable interprocedural optimizations?");
 
+DEFINE_bool(disable_optimizer_O3, false,
+            "Disable O3 optimizations?");
+
 DEFINE_bool(keep_memops, false,
             "Should the memory intrinsics be replaced or not?");
 
@@ -119,7 +122,13 @@ static void RunO3(void) {
   TLI->disableAllFunctions();  // `-fno-builtin`.
 
   llvm::PassManagerBuilder builder;
-  builder.OptLevel = 3;
+  if (!FLAGS_disable_optimizer_O3) {
+    printf("ENABLE O3\n");
+    builder.OptLevel = 3;
+  } else {
+    printf("DISABLE O3\n");
+    builder.OptLevel = 0;
+  }
   builder.SizeLevel = 2;
   builder.Inliner = llvm::createFunctionInliningPass(
       std::numeric_limits<int>::max());
