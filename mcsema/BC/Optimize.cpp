@@ -362,7 +362,7 @@ void OptimizeModule(void) {
     auto bb_func = remill::BasicBlockFunction(gModule);
     auto slots = remill::StateSlots(gModule);
     RunO3();
-    remill::RemoveDeadStores(gModule, bb_func, slots);
+    //remill::RemoveDeadStores(gModule, bb_func, slots);
   }
 
   RemoveIntrinsics();

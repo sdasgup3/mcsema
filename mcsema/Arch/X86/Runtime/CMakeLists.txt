@@ -184,7 +184,7 @@ else()
 
       add_library(${MCSMEMA_RT64} STATIC runtime_64.S runtime_64.o)
       set_target_properties(${MCSMEMA_RT64}
-        PROPERTIES COMPILE_FLAGS "-m64 -fPIC" LINK_FLAGS "-m64 -fPIC"
+        PROPERTIES COMPILE_FLAGS "-m64 -fPIC -fno-rtti" LINK_FLAGS "-m64 -fPIC -fno-rtti"
       )
 
       add_custom_command(
@@ -224,7 +224,7 @@ set_source_files_properties(
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
   add_custom_command(
     OUTPUT runtime_64.o
-    COMMAND "${CMAKE_BC_COMPILER}" -std=gnu++11 -isystem "${REMILL_SOURCE_DIR}" -isystem "${MCSEMA_SOURCE_DIR}" -m64  -fPIC -c "${CMAKE_CURRENT_SOURCE_DIR}/Runtime.cpp" -o runtime_64.o
+    COMMAND "${CMAKE_BC_COMPILER}" -std=gnu++11 -isystem "${REMILL_SOURCE_DIR}" -isystem "${MCSEMA_SOURCE_DIR}" -m64  -fno-rtti -fPIC -c "${CMAKE_CURRENT_SOURCE_DIR}/Runtime.cpp" -o runtime_64.o
     DEPENDS Runtime.cpp
     COMMENT "Building 64-bit runtime"
   )
